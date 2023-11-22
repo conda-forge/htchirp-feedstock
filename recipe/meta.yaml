@@ -1,5 +1,5 @@
 {% set name = "htchirp" %}
-{% set version = "2.0" %}
+{% set version = "3.0" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
-  sha256: "3bcca4b809b81ea7b68acffed54104096437ea9aaf6063928120ad4c50cbd9f7"
+  sha256: "e036cbf772c6597e47ddd1bdb4efcd088b64dbd76f6ae4cfe92ba4bad8eb23af"
 
 build:
   noarch: python
@@ -17,9 +17,9 @@ build:
 requirements:
   host:
     - pip
-    - python
+    - python >=3.6
   run:
-    - python
+    - python >=3.6
 
 test:
   imports:
