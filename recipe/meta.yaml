@@ -2,36 +2,46 @@
 {% set version = "3.0" %}
 
 package:
-  name: "{{ name|lower }}"
-  version: "{{ version }}"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
-  sha256: "e036cbf772c6597e47ddd1bdb4efcd088b64dbd76f6ae4cfe92ba4bad8eb23af"
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: e036cbf772c6597e47ddd1bdb4efcd088b64dbd76f6ae4cfe92ba4bad8eb23af
 
 build:
+  entry_points:
+    - condor_htchirp = htchirp.cli:main
   noarch: python
-  number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  number: 1
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
+    - setuptools
   run:
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
+  requires:
+    - pip
+    - python {{ python_min }}
   imports:
     - htchirp
+  commands:
+    - python -m pip check
+    - python -m pip show htchirp
+    - condor_htchirp --help
 
 about:
-  home: "https://github.com/htcondor/htchirp"
-  dev_url: "https://github.com/htcondor/htchirp"
-  license: "Apache-2.0"
-  license_family: "APACHE"
-  license_file: "LICENSE"
-  summary: "Pure Python Chirp client for HTCondor"
+  home: https://github.com/htcondor/htchirp
+  dev_url: https://github.com/htcondor/htchirp
+  license: Apache-2.0
+  license_family: APACHE
+  license_file: LICENSE
+  summary: Pure Python Chirp client for HTCondor
 
 extra:
   recipe-maintainers:
