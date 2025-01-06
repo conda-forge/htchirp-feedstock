@@ -10,6 +10,8 @@ source:
   sha256: "e036cbf772c6597e47ddd1bdb4efcd088b64dbd76f6ae4cfe92ba4bad8eb23af"
 
 build:
+  entry_points:
+    - condor_htchirp = htchirp.cli:main
   noarch: python
   number: 1
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
@@ -18,14 +20,20 @@ requirements:
   host:
     - pip
     - python {{ python_min }}
+    - setuptools
   run:
     - python >={{ python_min }}
 
 test:
   requires:
+    - pip
     - python {{ python_min }}
   imports:
     - htchirp
+  commands:
+    - python -m pip check
+    - python -m pip show htchirp
+    - condor_htchirp --help
 
 about:
   home: "https://github.com/htcondor/htchirp"
